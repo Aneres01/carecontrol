@@ -1,52 +1,90 @@
-import React, { useState } from "react";
+import "./index.css";
 
 export default function App() {
-  const [page, setPage] = useState("dashboard");
-  const [beneficiaries, setBeneficiaries] = useState([]);
-
-  const [form, setForm] = useState({ name: "", cpf: "", birth: "" });
-
-  function addBeneficiary(e) {
-    e.preventDefault();
-    if (!form.name || !form.cpf || !form.birth) return;
-    setBeneficiaries([...beneficiaries, form]);
-    setForm({ name: "", cpf: "", birth: "" });
-  }
-
   return (
-    <div style={{ fontFamily: "Arial" }}>
-      <div style={{ display: "flex", gap: 10, padding: 15, background: "#0f172a", color: "#fff" }}>
-        <button onClick={() => setPage("dashboard")}>Dashboard</button>
-        <button onClick={() => setPage("beneficiaries")}>Beneficiários</button>
-      </div>
+    <div className="app">
+      {/* SIDEBAR */}
+      <aside className="sidebar">
+        <h2 className="logo">CareControl</h2>
 
-      <div style={{ padding: 20 }}>
-        {page === "dashboard" && (
-          <div>
-            <h1>CareControl</h1>
-            <p>Total Beneficiários: {beneficiaries.length}</p>
+        <nav className="menu">
+          <a className="active">Dashboard</a>
+          <a>Autorizações</a>
+          <a>Beneficiários</a>
+          <a>Reembolsos</a>
+          <a>Medicamentos</a>
+        </nav>
+      </aside>
+
+      {/* MAIN */}
+      <main className="main">
+        <header className="topbar">
+          <h1>Dashboard</h1>
+          <span className="user">Analista Operacional</span>
+        </header>
+
+        {/* KPIs */}
+        <section className="cards">
+          <div className="card">
+            <h3>Beneficiários</h3>
+            <p>1.248</p>
           </div>
-        )}
 
-        {page === "beneficiaries" && (
-          <div>
-            <h1>Beneficiários</h1>
-
-            <form onSubmit={addBeneficiary}>
-              <input placeholder="Nome" value={form.name} onChange={e => setForm({ ...form, name: e.target.value })} />
-              <input placeholder="CPF" value={form.cpf} onChange={e => setForm({ ...form, cpf: e.target.value })} />
-              <input type="date" value={form.birth} onChange={e => setForm({ ...form, birth: e.target.value })} />
-              <button type="submit">Salvar</button>
-            </form>
-
-            {beneficiaries.map((b, i) => (
-              <div key={i} style={{ border: "1px solid #ccc", marginTop: 10, padding: 10 }}>
-                {b.name} - {b.cpf}
-              </div>
-            ))}
+          <div className="card">
+            <h3>Autorizações Pendentes</h3>
+            <p>37</p>
           </div>
-        )}
-      </div>
+
+          <div className="card">
+            <h3>Reembolsos</h3>
+            <p>18</p>
+          </div>
+
+          <div className="card">
+            <h3>Medicamentos</h3>
+            <p>64</p>
+          </div>
+        </section>
+
+        {/* TABELA */}
+        <section className="panel">
+          <h2>Solicitações Recentes</h2>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Paciente</th>
+                <th>Tipo</th>
+                <th>Status</th>
+                <th>Data</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <tr>
+                <td>Maria Silva</td>
+                <td>Autorização</td>
+                <td className="pendente">Pendente</td>
+                <td>25/06</td>
+              </tr>
+
+              <tr>
+                <td>João Souza</td>
+                <td>Medicamento</td>
+                <td className="aprovado">Aprovado</td>
+                <td>24/06</td>
+              </tr>
+
+              <tr>
+                <td>Ana Lima</td>
+                <td>Reembolso</td>
+                <td className="negado">Negado</td>
+                <td>23/06</td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+      </main>
     </div>
   );
 }
